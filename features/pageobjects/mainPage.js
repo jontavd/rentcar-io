@@ -159,6 +159,62 @@ class MainPage {
     return $('.mes2 > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1)');
   }
 
+  get pickupJun06 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1)');
+  }
+
+  get pickupJun07 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div:nth-child(1)');
+  }
+
+  get pickupJun08 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(3) > div:nth-child(4) > div:nth-child(1)');
+  }
+
+  get pickupJun09 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(3) > div:nth-child(5) > div:nth-child(1)');
+  }
+
+  get pickupJun10 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(3) > div:nth-child(6) > div:nth-child(1)');
+  }
+
+  get pickupJun11 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(3) > div:nth-child(7) > div:nth-child(1)');
+  }
+
+  get pickupJun12 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1)');
+  }
+
+  get pickupJun13 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div:nth-child(1)');
+  }
+
+  get pickupJun14 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(4) > div:nth-child(3) > div:nth-child(1)');
+  }
+
+  get pickupJun15 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(4) > div:nth-child(4) > div:nth-child(1)');
+  }
+
+  get pickupJun16 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(4) > div:nth-child(5) > div:nth-child(1)');
+  }
+
+  get pickupJun17 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(4) > div:nth-child(6) > div:nth-child(1)');
+  }
+
+  get pickupJun18 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(4) > div:nth-child(7) > div:nth-child(1)');
+  }
+
+  get pickupJun19 () {
+    return $('.mes2 > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > div:nth-child(1)');
+  }
+
   get searchButton () {
     return $(".seccion-buscar > span:nth-child(2)");
   }
