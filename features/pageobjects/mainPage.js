@@ -215,6 +215,22 @@ class MainPage {
     return $('.mes2 > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > div:nth-child(1)');
   }
 
+  get pickupTime () {
+    return $('#pickuptime');
+  }
+
+  get pickupTime12 () {
+    return $('#hora_25')
+  }
+
+  get dropoffTime () {
+      return $('#dropofftime');
+  }
+
+  get dropoffTime12 () {
+    return $('#hora_25')
+  }
+
   get searchButton () {
     return $(".seccion-buscar > span:nth-child(2)");
   }

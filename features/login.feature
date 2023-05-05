@@ -13,7 +13,11 @@ Feature: The Internet Guinea Pig Website
   Scenario Outline:
     Given I am on the main pages
     And I select <city>> as the pickup location
-    When I fill the <pickupdate> and I fill the <dropoffdate>
+    When I fill the <pickupdate> for pickup
+    And I fill the <dropoffdate> for dropoff
+    And I fill the pickup time
+    And I fill the dropoff time
+    And I click on the search button
     Then I wait 2 seconds
 
     Examples:

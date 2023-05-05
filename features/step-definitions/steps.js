@@ -1,7 +1,7 @@
 import {Given, When, Then} from '@wdio/cucumber-framework';
 import mainPage from '../pageobjects/mainPage.js';
 
-let _pickuplocation;
+let _pickuplocation, _pickupDate, _returnDate;
 
 Given(/^I am on the main pages$/, async function() {
   await browser.reloadSession();
@@ -37,6 +37,10 @@ Given(/^I select (.*)> as the pickup location$/, async function(pickupLocation) 
 
 When(/^I fill the (.*) and I fill the (.*)$/, async function(pickupDate, returnDate) {
 
+
+});
+When(/^I fill the (.*) for pickup$/, async function (pickupDate) {
+  _pickupDate = pickupDate;
   switch (pickupDate) {
     case 'May02':
       await mainPage.pickupMay02.click();
@@ -160,7 +164,16 @@ When(/^I fill the (.*) and I fill the (.*)$/, async function(pickupDate, returnD
   }
 
   await browser.pause(1000);
+});
 
+When(/^I fill the pickup time$/, async function () {
+  await mainPage.pickupTime.click();
+  await browser.pause(1000);
+  await mainPage.pickupTime12.click();
+});
+
+When(/^I fill the (.*) for dropoff$/, async function (returnDate) {
+  _returnDate = returnDate;
   switch (returnDate) {
     case 'May16':
       await mainPage.pickupMay16.click();
@@ -298,8 +311,14 @@ When(/^I fill the (.*) and I fill the (.*)$/, async function(pickupDate, returnD
       await mainPage.pickupJun18.click();
       break;
   }
+});
 
+When(/^I fill the dropoff time$/, async function () {
+  await mainPage.dropoffTime.click();
+  await browser.pause(1000);
+  await mainPage.dropoffTime12.click();
+});
+When(/^I click on the search button$/, async function () {
   await mainPage.searchButton.click();
-  console.log('City: ' + _pickuplocation + ' - Pickup: ' + pickupDate + ' - Drop off: ' + returnDate + ' - Price: ' + await mainPage.price.getText() + await mainPage.priceDecimal.getText());
-
+  console.log('City: ' + _pickuplocation + ' - Pickup: ' + _pickupDate + ' - Drop off: ' + _returnDate + ' - Price: ' + await mainPage.price.getText() + await mainPage.priceDecimal.getText());
 });
