@@ -1,324 +1,111 @@
-import {Given, When, Then} from '@wdio/cucumber-framework';
+import {Given, Then, When} from '@wdio/cucumber-framework';
+import csv from 'fast-csv';
+import fs from 'fs';
 import mainPage from '../pageobjects/mainPage.js';
 
-let _pickuplocation, _pickupDate, _returnDate;
+let _pickuplocation, _pickupDate, _returnDate, _dateCombinations, _cities;
 
-Given(/^I am on the main pages$/, async function() {
-  await browser.reloadSession();
-  await mainPage.open();
+let cSearchDate, cPickupDay, cPickupWeekDay, cReturnDay, cReturnWeekDay, cDaysInAdvance, cDaysInBetween, cWeekend, cCity, cPrice;
+
+Given(/^I am on the main pages$/, async function () {
+  // await browser.reloadSession();
+  // await mainPage.open();
 });
 
-Then(/^I wait (\d+) seconds$/, async function(seconds) {
+Then(/^I wait (\d+) seconds$/, async function (seconds) {
   await browser.pause(seconds * 1000);
 });
 
-When(/^I fill the form with the rent details$/, async function() {
-  await mainPage.pickupMay02.click();
-  await browser.pause(1000);
-  await mainPage.pickupMay16.click();
-  await mainPage.searchButton.click();
-  console.log('May02-May16 - Price: ' + await mainPage.price.getText() + await mainPage.priceDecimal.getText());
-});
+Given(/^I prepare the calendar dates for the test$/, async function () {
+  const today = new Date();
+  const firstPickupDate = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
+  const minRentDuration = 7 * 24 * 60 * 60 * 1000;
+  const maxRentDuration = 28 * 24 * 60 * 60 * 1000;
 
-When(/^I fill the form with the second rent details$/, async function() {
-  await mainPage.pickupMay03.click();
-  await browser.pause(1000);
-  await mainPage.pickupMay17.click();
-  await mainPage.searchButton.click();
-  console.log('May03-May17 - Price: ' + await mainPage.price.getText() + await mainPage.priceDecimal.getText());
-});
+  const lastDayOfNextMonth = new Date(today.getFullYear(), today.getMonth() + 2, 0);
 
-Given(/^I select (.*)> as the pickup location$/, async function(pickupLocation) {
-  _pickuplocation = pickupLocation;
-  await mainPage.acceptCookiesButton.click();
-  await mainPage.pickupPlace.setValue(pickupLocation);
-  await mainPage.pickupPlaceList.click();
-});
+  const dateCombinations = [];
 
-When(/^I fill the (.*) and I fill the (.*)$/, async function(pickupDate, returnDate) {
+  let currentPickupDate = firstPickupDate;
+  while (true) {
+    let currentDropoffDate = new Date(currentPickupDate.getTime() + minRentDuration);
+    while (currentDropoffDate <= new Date(currentPickupDate.getTime() + maxRentDuration) && currentDropoffDate <= lastDayOfNextMonth) {
+      dateCombinations.push([currentPickupDate, currentDropoffDate]);
+      currentDropoffDate = new Date(currentDropoffDate.getTime() + 24 * 60 * 60 * 1000);
+    }
 
-
-});
-When(/^I fill the (.*) for pickup$/, async function (pickupDate) {
-  _pickupDate = pickupDate;
-  switch (pickupDate) {
-    case 'May02':
-      await mainPage.pickupMay02.click();
+    currentPickupDate = new Date(currentPickupDate.getTime() + 24 * 60 * 60 * 1000);
+    if (new Date(currentPickupDate.getTime() + minRentDuration) > lastDayOfNextMonth) {
       break;
-
-    case 'May03':
-      await mainPage.pickupMay03.click();
-      break;
-
-    case 'May04':
-      await mainPage.pickupMay04.click();
-      break;
-
-    case 'May05':
-      await mainPage.pickupMay05.click();
-      break;
-
-    case 'May06':
-      await mainPage.pickupMay06.click();
-      break;
-
-    case 'May07':
-      await mainPage.pickupMay07.click();
-      break;
-
-    case 'May08':
-      await mainPage.pickupMay08.click();
-      break;
-
-    case 'May09':
-      await mainPage.pickupMay09.click();
-      break;
-
-    case 'May10':
-      await mainPage.pickupMay10.click();
-      break;
-
-    case 'May11':
-      await mainPage.pickupMay11.click();
-      break;
-
-    case 'May12':
-      await mainPage.pickupMay12.click();
-      break;
-
-    case 'May13':
-      await mainPage.pickupMay13.click();
-      break;
-
-    case 'May14':
-      await mainPage.pickupMay14.click();
-      break;
-
-    case 'May15':
-      await mainPage.pickupMay15.click();
-      break;
-
-    case 'May16':
-      await mainPage.pickupMay16.click();
-      break;
-
-    case 'May17':
-      await mainPage.pickupMay17.click();
-      break;
-
-    case 'May18':
-      await mainPage.pickupMay18.click();
-      break;
-
-    case 'May19':
-      await mainPage.pickupMay19.click();
-      break;
-
-    case 'May20':
-      await mainPage.pickupMay20.click();
-      break;
-
-    case 'May21':
-      await mainPage.pickupMay21.click();
-      break;
-
-    case 'May22':
-      await mainPage.pickupMay22.click();
-      break;
-
-    case 'May23':
-      await mainPage.pickupMay23.click();
-      break;
-
-    case 'May24':
-      await mainPage.pickupMay24.click();
-      break;
-
-    case 'May25':
-      await mainPage.pickupMay25.click();
-      break;
-
-    case 'May26':
-      await mainPage.pickupMay26.click();
-      break;
-
-    case 'May27':
-      await mainPage.pickupMay27.click();
-      break;
-
-    case 'May28':
-      await mainPage.pickupMay28.click();
-      break;
-
-    case 'May29':
-      await mainPage.pickupMay29.click();
-      break;
-
-    case 'May30':
-      await mainPage.pickupMay30.click();
-      break;
-
-    case 'May31':
-      await mainPage.pickupMay31.click();
-      break;
+    }
   }
-
-  await browser.pause(1000);
+  _dateCombinations = dateCombinations;
+});
+Given(/^I select the cities for pickup location$/, async function () {
+  _cities = ["Lisboa", "Porto"];
 });
 
-When(/^I fill the pickup time$/, async function () {
-  await mainPage.pickupTime.click();
-  await browser.pause(1000);
-  await mainPage.pickupTime12.click();
-});
+Given(/^I search the using the prepared data$/, async function () {
+  fs.writeFile('output.csv', '', err => {
+    if(err) {
+      console.log('Error creating/replacing file:', err);
+    }
+  });
 
-When(/^I fill the (.*) for dropoff$/, async function (returnDate) {
-  _returnDate = returnDate;
-  switch (returnDate) {
-    case 'May16':
-      await mainPage.pickupMay16.click();
-      break;
+  let locale = 'en-GB';
 
-    case 'May17':
-      await mainPage.pickupMay16.click();
-      break;
+  const csvStream = csv.format({headers: true, delimiter: ';'});
+  const writableStream = fs.createWriteStream('output.csv', {flags: 'a'});
+  csvStream.pipe(writableStream);
 
-    case 'May18':
-      await mainPage.pickupMay18.click();
-      break;
+  cSearchDate = new Date();
+  let formattedCSearchDate = cSearchDate.toLocaleDateString(locale, { month: 'long', day: 'numeric' });
 
-    case 'May19':
-      await mainPage.pickupMay19.click();
-      break;
+  for (const city of _cities) {
+    for (const dateCombination of _dateCombinations) {
 
-    case 'May20':
-      await mainPage.pickupMay20.click();
-      break;
+      await browser.reloadSession();
+      await mainPage.open();
+      await mainPage.acceptCookies();
+      await mainPage.fillPickupPlace(city);
 
-    case 'May21':
-      await mainPage.pickupMay21.click();
-      break;
+      await mainPage.fillPickupDate(dateCombination[0]);
+      await mainPage.fillDropoffDate(dateCombination[1]);
 
-    case 'May22':
-      await mainPage.pickupMay22.click();
-      break;
+      await mainPage.searchButton.click();
 
-    case 'May23':
-      await mainPage.pickupMay23.click();
-      break;
+      const price = await mainPage.price.getText() + await mainPage.priceDecimal.getText();
 
-    case 'May24':
-      await mainPage.pickupMay24.click();
-      break;
+      cCity = city;
+      cPickupDay = dateCombination[0].getDate();
+      let formattedCPickupDate = dateCombination[0].toLocaleDateString(locale, { month: 'long', day: 'numeric' });
+      cPickupWeekDay = dateCombination[0].getDay();
+      let formattedCPickupWeekDay = dateCombination[0].toLocaleDateString(locale, { weekday: 'long' });
+      cReturnDay = dateCombination[1].getDate();
+      let formattedCReturnDate = dateCombination[1].toLocaleDateString(locale, { month: 'long', day: 'numeric' });
+      cReturnWeekDay = dateCombination[1].getDay();
+      let formattedCReturnWeekDay = dateCombination[1].toLocaleDateString(locale, { weekday: 'long' });
+      cDaysInAdvance = Math.round((dateCombination[0].getTime() - cSearchDate.getTime()) / (1000 * 3600 * 24));
+      cDaysInBetween = Math.round((dateCombination[1].getTime() - dateCombination[0].getTime()) / (1000 * 3600 * 24));
+      cPrice = price;
 
-    case 'May25':
-      await mainPage.pickupMay25.click();
-      break;
+      csvStream.write({
+        formattedCSearchDate: formattedCSearchDate,
+        cCity: cCity,
+        formattedCPickupDate: formattedCPickupDate,
+        formattedCPickupWeekDay: formattedCPickupWeekDay,
+        formattedCReturnDate: formattedCReturnDate,
+        formattedCReturnWeekDay: formattedCReturnWeekDay,
+        cDaysInAdvance: cDaysInAdvance,
+        cDaysInBetween: cDaysInBetween,
+        cPrice: cPrice
+      });
 
-    case 'May26':
-      await mainPage.pickupMay26.click();
-      break;
-
-    case 'May27':
-      await mainPage.pickupMay27.click();
-      break;
-
-    case 'May28':
-      await mainPage.pickupMay28.click();
-      break;
-
-    case 'May29':
-      await mainPage.pickupMay29.click();
-      break;
-
-    case 'May30':
-      await mainPage.pickupMay30.click();
-      break;
-
-    case 'May31':
-      await mainPage.pickupMay31.click();
-      break;
-
-    case 'Jun01':
-      await mainPage.pickupJun01.click();
-      break;
-
-    case 'Jun02':
-      await mainPage.pickupJun02.click();
-      break;
-
-    case 'Jun03':
-      await mainPage.pickupJun03.click();
-      break;
-
-    case 'Jun04':
-      await mainPage.pickupJun04.click();
-      break;
-
-    case 'Jun05':
-      await mainPage.pickupJun05.click();
-      break;
-
-    case 'Jun06':
-      await mainPage.pickupJun06.click();
-      break;
-
-    case 'Jun07':
-      await mainPage.pickupJun07.click();
-      break;
-
-    case 'Jun08':
-      await mainPage.pickupJun08.click();
-      break;
-
-    case 'Jun09':
-      await mainPage.pickupJun09.click();
-      break;
-
-    case 'Jun10':
-      await mainPage.pickupJun10.click();
-      break;
-
-    case 'Jun11':
-      await mainPage.pickupJun11.click();
-      break;
-
-    case 'Jun12':
-      await mainPage.pickupJun12.click();
-      break;
-
-    case 'Jun13':
-      await mainPage.pickupJun13.click();
-      break;
-
-    case 'Jun14':
-      await mainPage.pickupJun14.click();
-      break;
-
-    case 'Jun15':
-      await mainPage.pickupJun15.click();
-      break;
-
-    case 'Jun16':
-      await mainPage.pickupJun16.click();
-      break;
-
-    case 'Jun17':
-      await mainPage.pickupJun17.click();
-      break;
-
-    case 'Jun18':
-      await mainPage.pickupJun18.click();
-      break;
+      console.log('INFO: ' + cCity + ' - ' + formattedCPickupDate + ' - ' + formattedCReturnDate + ' - ' + cPrice);
+    }
   }
+  csvStream.end();
 });
+Given(/^I search with (.*) and (.*) (.*) data$/, function () {
 
-When(/^I fill the dropoff time$/, async function () {
-  await mainPage.dropoffTime.click();
-  await browser.pause(1000);
-  await mainPage.dropoffTime12.click();
-});
-When(/^I click on the search button$/, async function () {
-  await mainPage.searchButton.click();
-  console.log('City: ' + _pickuplocation + ' - Pickup: ' + _pickupDate + ' - Drop off: ' + _returnDate + ' - Price: ' + await mainPage.price.getText() + await mainPage.priceDecimal.getText());
 });
