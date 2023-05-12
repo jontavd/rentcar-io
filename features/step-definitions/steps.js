@@ -106,6 +106,48 @@ Given(/^I search the using the prepared data$/, async function () {
   }
   csvStream.end();
 });
-Given(/^I search with (.*) and (.*) (.*) data$/, function () {
+
+Given(/^I search the city with (.*) and (.*) data$/, async function (pickupDate, returnDate) {
+  const cities = ["Lisboa", "Porto"];
+  const locale = 'en-GB';
+  const searchDate = new Date().toLocaleDateString(locale, { month: 'long', day: 'numeric' });
+  const searchHour = new Date().getHours().toString().padStart(2, '0');
+  const csvPickupDate = new Date(pickupDate).toLocaleDateString(locale, { month: 'long', day: 'numeric' });
+  const csvPickupWeekDay = new Date(pickupDate).toLocaleDateString(locale, { weekday: 'long' });
+  const csvReturnDate = new Date(returnDate).toLocaleDateString(locale, { month: 'long', day: 'numeric' });
+  const csvReturnWeekDay = new Date(returnDate).toLocaleDateString(locale, { weekday: 'long' });
+  const csvDaysInAdvance = Math.round((new Date(pickupDate).getTime() - new Date().getTime()) / (1000 * 3600 * 24));
+  const csvDaysInBetween = Math.round((new Date(returnDate).getTime() - new Date(pickupDate).getTime()) / (1000 * 3600 * 24));
+
+  for (const city of cities) {
+    const csvStream = csv.format({headers: false, delimiter: ';'});
+    const writableStream = fs.createWriteStream('output2.csv', {flags: 'a'});
+    csvStream.pipe(writableStream);
+
+    await browser.reloadSession();
+    await mainPage.open();
+    await mainPage.acceptCookies();
+    await mainPage.fillPickupPlace(city);
+    await mainPage.fillPickupDate(new Date(pickupDate));
+    await mainPage.fillDropoffDate(new Date(returnDate));
+    await mainPage.searchButton.click();
+    const price = await mainPage.price.getText() + await mainPage.priceDecimal.getText();
+
+    csvStream.write({
+      searchDate: searchDate,
+      searchHour: searchHour,
+      city: city,
+      pickupDate: csvPickupDate,
+      pickupWeekDay: csvPickupWeekDay,
+      returnDate: csvReturnDate,
+      returnWeekDay: csvReturnWeekDay,
+      daysInAdvance: csvDaysInAdvance,
+      daysInBetween: csvDaysInBetween,
+      price: price
+    });
+    writableStream.write('\n');
+    csvStream.end();
+    console.log('INFO: ' + city + ' - ' + pickupDate + ' - ' + returnDate + ' - ' + price);
+  }
 
 });

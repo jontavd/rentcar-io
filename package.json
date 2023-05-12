@@ -5,7 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "wdio": "wdio run wdio.conf.js"
+    "wdio": "wdio run wdio.conf.js",
+    "alldates": "wdio run wdio.conf.js --cucumberOpts.tagExpression='@alldates'",
+    "specificdates": "wdio run wdio.conf.js --cucumberOpts.tagExpression='@specificdates'"
   },
   "author": "",
   "license": "ISC",

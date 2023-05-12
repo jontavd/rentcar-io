@@ -89,7 +89,7 @@ export const config = {
   // gets prepended directly.
   baseUrl: 'http://localhost', //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 30000, //
+  waitforTimeout: 20000, //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
   connectionRetryTimeout: 120000, //
@@ -115,7 +115,7 @@ export const config = {
   // specFileRetriesDelay: 0,
   //
   // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-  // specFileRetriesDeferred: false,
+  specFileRetriesDeferred: true,
   //
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
