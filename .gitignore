@@ -4,5 +4,5 @@ node_modules/
 # WebStorm Files
 .idea/
 
-# CSV output
-*.csv
+# output files
+/output/
