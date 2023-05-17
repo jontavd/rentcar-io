@@ -1,6 +1,7 @@
 import {getDateSelector} from "../utils/helpers.js";
 
 class MainPage {
+
   open () {
     return browser.url("https://goldcar.es/");
   }
@@ -71,8 +72,13 @@ class MainPage {
     await dateSelector.click();
   }
 
-  async fillDropoffDate (date) {
-    let dateSelector = getDateSelector(date);
+  async fillDropoffDate (date, forcedSide = '') {
+    let dateSelector;
+    if (forcedSide === "left") {
+       dateSelector = getDateSelector(date, forcedSide);
+    } else {
+       dateSelector = getDateSelector(date);
+    }
     await dateSelector.waitForDisplayed();
     await dateSelector.click();
   }

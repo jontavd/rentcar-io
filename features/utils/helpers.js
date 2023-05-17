@@ -1,6 +1,6 @@
 // features/utils/helpers.js
 
-export function getDateSelector(date) {
+export function getDateSelector(date, forcedSide = '') {
 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -25,6 +25,8 @@ export function getDateSelector(date) {
   // Day of week: JS Sunday is 0, but we need Monday to be 1 and Sunday to be 7
   let col = date.getDay();
   col = col === 0 ? 7 : col; // If col is 0 (Sunday), set it to 7
+
+  side = (forcedSide === 'left') ? 'left' : side;
 
   return $(`#buscador-selector-oficina > div.row.selector-calendario > div.col-xs-12.calendar-direction > div.nombre-meses-dias-${side} > div.dias-meses > div > div > div:nth-child(${row}) > div:nth-child(${col}) > div`);
 }

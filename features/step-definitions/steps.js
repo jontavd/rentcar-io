@@ -121,7 +121,7 @@ Given(/^I search the city with (.*) and (.*) data$/, async function (pickupDate,
 
   for (const city of cities) {
     const csvStream = csv.format({headers: false, delimiter: ';'});
-    const writableStream = fs.createWriteStream('output2.csv', {flags: 'a'});
+    const writableStream = fs.createWriteStream("output/specific-dates.csv", {flags: 'a'});
     csvStream.pipe(writableStream);
 
     await browser.reloadSession();
@@ -129,7 +129,11 @@ Given(/^I search the city with (.*) and (.*) data$/, async function (pickupDate,
     await mainPage.acceptCookies();
     await mainPage.fillPickupPlace(city);
     await mainPage.fillPickupDate(new Date(pickupDate));
-    await mainPage.fillDropoffDate(new Date(returnDate));
+    if (new Date(pickupDate).getMonth() > new Date().getMonth()) {
+      await mainPage.fillDropoffDate(new Date(returnDate), 'left');
+    } else {
+      await mainPage.fillDropoffDate(new Date(returnDate));
+    }
     await mainPage.searchButton.click();
     const price = await mainPage.price.getText() + await mainPage.priceDecimal.getText();
 

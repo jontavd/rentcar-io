@@ -47,8 +47,8 @@ const generateDates = (startInFuture, minDaysRange, maxDaysRange, freezeDaysPick
 // Specify your freeze days for pickup and dropoff here
 const freezeDaysPickup = [];
 const freezeDaysDropoff = [];
-const onlyWeekendsPickup = false;
-const onlyWeekendsDropoff = false;
+const onlyWeekendsPickup = true;
+const onlyWeekendsDropoff = true;
 
 const dates = generateDates(3, 7, 28, freezeDaysPickup, freezeDaysDropoff, onlyWeekendsPickup, onlyWeekendsDropoff);
 
