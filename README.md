@@ -38,7 +38,7 @@ Running the tests will open a Chrome browser run the scripts, use all available 
 
 5. Advanced (Optional)
 
-You can limit the range of dates and put them on the scenario 'specificdates' on `features/login.feature` file. and run the command:
+You can limit the range of dates and put them on the scenario 'specificdates' on [`features/login.feature`](features/login.feature) file. and run the command:
 ```sh
     npm run specificdates
 ```
